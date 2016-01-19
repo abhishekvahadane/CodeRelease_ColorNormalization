@@ -1,0 +1,35 @@
+
+% Registration for obtaining well aligned ground truth
+
+%% step1: Enter the two directory one for data and other for ground truth (targets)
+imgFormat='tiff';
+sourcedir=[DirSource,'\*.',imgFormat];
+targetdir='C:\Users\CAMP\Downloads\ICPR 2014 contest and dataset\Hamamatsu scanner\H04\frames\x40,'\*.',imgFormat];
+sourcefiles=dir(sourcedir);
+targetfiles=dir(targetdir);
+numfiles=size(sourcefiles,1)-2;
+randnum=randi(numfiles,numberofimages,1);
+patchsize=600;
+patchsize2=patchsize;
+% from=0;
+% to=0;
+count=0;
+npatch=2;
+for k=1:numberofimages
+    sourcename=[sourcedir,'\',sourcefiles(randnum(k,1)+2,1).name];
+    sourceimg=imread(sourcename);
+    GTname=[targetdir,'\',targetfiles(randnum(k,1)+2,1).name];
+    GTimg=imread(GTname);
+    %     targetname2=[targetdir,'\',targetfiles(ceil(rand(1,1)*numfiles)+2,1).name];
+    %     targetimg2=imread(targetname2);
+    %% Register ground truth to source if needed
+    % reg=input('Please enter 1 if you want to register=');
+    reg=1;
+    if reg==1
+        addpath('Registration of two scanner images\')
+        addpath('Registration of two scanner images\mirt2d\')
+        addpath('Registration of two scanner images\group2D_GUI')
+        addpath('Registration of two scanner images\utils\')
+        [sourceimg,GTimg]=register_nr(uint8(sourceimg),uint8(GTimg));
+    end
+    close all
