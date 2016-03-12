@@ -23,16 +23,16 @@ rows=size(I,1);cols=size(I,2);
 start_spams; 
 
 %% Beer-Lamber tranformation
-V=BLtrans(I);    % V=WH see in paper, VforW-is V excluding white pixels
+[V,V1]=BLtrans(I);    % V=WH see in paper, VforW-is V excluding white pixels
 
 % Define parameter for SPAMS toolbox dictionary learning
-param=definePar(nstains,lambda,round(0.2*size(V,1)));    % This factor is
+param=definePar(nstains,lambda,round(0.2*size(V1,1)));    % This factor is
                                                          % trade-off
                                                          % between speed
                                                          % and accuracy.
                                                          
 %% Estimate stain color bases
-Wi=get_staincolor_sparsenmf(V,param);
+Wi=get_staincolor_sparsenmf(V1,param);
 
 % Estimate density maps
 [Hi,sepstains]=estH(V,Wi,param,rows,cols);
